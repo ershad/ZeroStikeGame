@@ -51,89 +51,89 @@ void compPlay(); // very important, the AI part...
 
 int main()
 {
-	char point[4];
- // cout << "Number of lines : ";
- // cin >> lines;
+  char point[4];
+  // cout << "Number of lines : ";
+  // cin >> lines;
   drawBoard_init();
   cout << "Maximum number of circles : " << maximumCircles; 
   cout << "\n\n";
 
   do 
-  {	  
-  	cout << "\n Enter co-ordinates : ";
-  	cin >> point;
+    {	  
+      cout << "\n Enter co-ordinates : ";
+      cin >> point;
 
-	  markOnBoard(point,cUser); // char[], char
-	  lastPlayed = user;
- 	  checkMove();
-  	printBoard();
+      markOnBoard(point,cUser); // char[], char
+      lastPlayed = user;
+      checkMove();
+      printBoard();
   	
-  	compPlay();  	
-  	markOnBoard(compMove,cComputer);
-  	lastPlayed = computer;
-  	checkMove();
-  	printBoard();
+      compPlay();  	
+      markOnBoard(compMove,cComputer);
+      lastPlayed = computer;
+      checkMove();
+      printBoard();
   
-  cout << "\n Your score: " << userScore << "     Comp's Score:" << compScore;
+      cout << "\n Your score: " << userScore << "     Comp's Score:" << compScore;
   	
   
-  } while (point[0] != 'n');
+    } while (point[0] != 'n');
   
-  	return 0;
+  return 0;
 }
 
 void compPlay()
 {
-	int i;
-	int j;
-	int hSmallest = 60;
-	int zeroCount = 0;
-	int temp;
+  int i;
+  int j;
+  int hSmallest = 60;
+  int zeroCount = 0;
+  int temp;
 	
-	int xMoveH; //must be a number <= 10
-	int yMoveH; //must be an alphabet <= j
+  int xMoveH; //must be a number <= 10
+  int yMoveH; //must be an alphabet <= j
 	
 	
-	//Let's find the most-marked row; + most-marked column
+  //Let's find the most-marked row; + most-marked column
 	
-	for (i = 0; i < lines; i++)
-	  {
-	    zeroCount = 1;
-	    for (j = 0; j < i; j++)
-	      {
+  for (i = 0; i < lines; i++)
+    {
+      zeroCount = 1;
+      for (j = 0; j < i; j++)
+	{
 		
-		if (board[i][j] != cStriked)
-		  {  		
-		    if (board[i][j] == cDefault)
-		      {
-			zeroCount++;
-			temp = zeroCount;
-		      }
-		  }
-	      }
+	  if (board[i][j] != cStriked)
+	    {  		
+	      if (board[i][j] == cDefault)
+		{
+		  zeroCount++;
+		  temp = zeroCount;
+		}
+	    }
+	}
 		
-		if (temp < hSmallest)
-		  {
-		    hSmallest = temp;
-		    xMoveH = j;
-		    yMoveH = i;
-		  }
+      if (temp < hSmallest)
+	{
+	  hSmallest = temp;
+	  xMoveH = j;
+	  yMoveH = i;
+	}
 	      
 
-	  }
+    }
 
-	compMove[0] = yMoveH + 97;
-	compMove[1] = xMoveH + 49;
-	compMove[2] = '\0';
+  compMove[0] = yMoveH + 97;
+  compMove[1] = xMoveH + 49;
+  compMove[2] = '\0';
 
-	cout << " \n compMove = " << compMove << endl;
+  cout << " \n compMove = " << compMove << endl;
 	
 }
 
 
 void checkMove()
 {
-	/*****************************************************************************
+  /*****************************************************************************
 	The program should check in horizontal and vertical directions for fully
 	marked circles. 
 	
@@ -144,174 +144,174 @@ void checkMove()
 	O O # O
 	# # # #
  	O O # O O O
-	*****************************************************************************/
+  *****************************************************************************/
 	
-	int i;
-	int j;
-	int k;
-	int tempScore;
-	int hFlag = 0;
-	int vFlag = 0;
+  int i;
+  int j;
+  int k;
+  int tempScore;
+  int hFlag = 0;
+  int vFlag = 0;
 	
-	/****************************************************************************
+  /****************************************************************************
 		Horizontal check...	
-	*****************************************************************************/
-	for (i = 0; i < lines; i++)
+  *****************************************************************************/
+  for (i = 0; i < lines; i++)
+    {
+      hFlag = 0;
+      for (j = 0; j <= i; j++)
 	{
-		hFlag = 0;
-		for (j = 0; j <= i; j++)
-		{
-			if ( (board[i][j] == cDefault) || (board[i][j] == cStriked))
-			{
-					hFlag = 1;
-					break;
-			}
-		}
-		
-		if (hFlag == 0)
-		{
-			tempScore = i + 1;
-			if (lastPlayed == user)
-			  userScore = userScore + tempScore;
-			else if (lastPlayed == computer)
-			  compScore = compScore + tempScore;
-				
-			for (k = 0; k <= i; k++)
-				  board[i][k] = cStriked;	
-		}
+	  if ( (board[i][j] == cDefault) || (board[i][j] == cStriked))
+	    {
+	      hFlag = 1;
+	      break;
+	    }
 	}
-	
-	/*****************************************************************************
-		Vertical check...
-	*****************************************************************************/
-	
-	for (j = 0 ; j < lines; j++)
+		
+      if (hFlag == 0)
 	{
-		vFlag = 0;
-		for (i = j; i < lines; i++)
-		{
-			if ( (board[i][j] == cDefault) || (board[i][j] == cStriked))
-				{
-						vFlag = 1;
-						break;
-				}
-			}
-			
-			if (vFlag == 0)
-			{
-				tempScore = 10 - j;
+	  tempScore = i + 1;
+	  if (lastPlayed == user)
+	    userScore = userScore + tempScore;
+	  else if (lastPlayed == computer)
+	    compScore = compScore + tempScore;
 				
-				if (lastPlayed == user)
-					userScore = userScore + tempScore;
-				else if (lastPlayed == computer)
-					compScore = compScore + tempScore;
-					
-					for (k = j; k < lines; k++)
-						board[k][j] = cStriked;	
-			}
-		}
+	  for (k = 0; k <= i; k++)
+	    board[i][k] = cStriked;	
+	}
+    }
 	
-	cout << "\n Score = " << userScore << "\n"; //Debug
+  /*****************************************************************************
+		Vertical check...
+  *****************************************************************************/
+	
+  for (j = 0 ; j < lines; j++)
+    {
+      vFlag = 0;
+      for (i = j; i < lines; i++)
+	{
+	  if ( (board[i][j] == cDefault) || (board[i][j] == cStriked))
+	    {
+	      vFlag = 1;
+	      break;
+	    }
+	}
+			
+      if (vFlag == 0)
+	{
+	  tempScore = 10 - j;
+				
+	  if (lastPlayed == user)
+	    userScore = userScore + tempScore;
+	  else if (lastPlayed == computer)
+	    compScore = compScore + tempScore;
+					
+	  for (k = j; k < lines; k++)
+	    board[k][j] = cStriked;	
+	}
+    }
+	
+  cout << "\n Score = " << userScore << "\n"; //Debug
 }
 
 void markOnBoard(char input[], char cChar)
 {
-	int y;
-	int x;
+  int y;
+  int x;
 	
-	char ctemp[3];
-	ctemp[0] = input[1];
-	ctemp[1] = input[2];
-	ctemp[2] = '\0';
+  char ctemp[3];
+  ctemp[0] = input[1];
+  ctemp[1] = input[2];
+  ctemp[2] = '\0';
 	
-	x = atoi(ctemp) - 1 ;
+  x = atoi(ctemp) - 1 ;
 	
-	y = input[0] - 97;
+  y = input[0] - 97;
 
-	//x = input[1] - 49;	
-	//if (input[2] == '0')
-	//	x = 9;
+  //x = input[1] - 49;	
+  //if (input[2] == '0')
+  //	x = 9;
 		
-	if ( (x > 9) || (input[0] > 'j') || (x > y) || board[y][x] != cDefault)
-		cout << "\n *** Invalid co-ordinate/marking, try again! ***\n\n";
-	else
-	{
-	board[y][x] = cChar;
-	cout << "\n  y = " << y << "  x = " << x << "\n\n"; 
-	}
+  if ( (x > 9) || (input[0] > 'j') || (x > y) || board[y][x] != cDefault)
+    cout << "\n *** Invalid co-ordinate/marking, try again! ***\n\n";
+  else
+    {
+      board[y][x] = cChar;
+      cout << "\n  y = " << y << "  x = " << x << "\n\n"; 
+    }
 }
 
 void printBoard()
 {
-	int i;
-	int k;
-	char count = 'a';
+  int i;
+  int k;
+  char count = 'a';
 	
-	for ( i = 0; i < lines; i++) 
+  for ( i = 0; i < lines; i++) 
+    {
+      cout << "\t";
+      cout << count++ << " |";
+		
+      for (int j = 0; j <= i; j++)
 	{
-		cout << "\t";
-		cout << count++ << " |";
-		
-		for (int j = 0; j <= i; j++)
-		{
-			cout << board[i][j] << " ";
-		}
-			cout << endl;
+	  cout << board[i][j] << " ";
 	}
+      cout << endl;
+    }
 	
-	cout << "\t";
-	cout << "   ";
-	for ( k = 0; k < i; k++)
-		cout << "- ";
+  cout << "\t";
+  cout << "   ";
+  for ( k = 0; k < i; k++)
+    cout << "- ";
 		
-	cout << endl;
+  cout << endl;
 		
-	cout << "\t";
-	cout << "   ";
-	for (k = 0; k < i; k++)
-		cout << k+1 << " ";
+  cout << "\t";
+  cout << "   ";
+  for (k = 0; k < i; k++)
+    cout << k+1 << " ";
 }
 
 int maxCircles ()
 {
-	int maxValue;
-	maxValue = (lines  * (lines + 1 ) ) / 2;
-	return maxValue;
+  int maxValue;
+  maxValue = (lines  * (lines + 1 ) ) / 2;
+  return maxValue;
 }
 
 void drawBoard_init()
 {
-	int i;
-	int k;
-	char count = 'a';
+  int i;
+  int k;
+  char count = 'a';
 	
-	for ( i = 0; i < lines; i++) 
+  for ( i = 0; i < lines; i++) 
+    {
+      cout << "\t";
+
+      cout << count++ << " |";
+		
+
+      for (int j = 0; j <= i; j++)
 	{
-		cout << "\t";
-
-			cout << count++ << " |";
-		
-
-		for (int j = 0; j <= i; j++)
-		{
-			board[i][j] = cDefault;
+	  board[i][j] = cDefault;
 			
-			cout << cDefault << " ";
-		}
-			cout << endl;
+	  cout << cDefault << " ";
 	}
+      cout << endl;
+    }
 	
-	cout << "\t";
-	cout << "   ";
-	for ( k = 0; k < i; k++)
-		cout << "- ";
+  cout << "\t";
+  cout << "   ";
+  for ( k = 0; k < i; k++)
+    cout << "- ";
 		
-	cout << endl;
+  cout << endl;
 		
-	cout << "\t";
-	cout << "   ";
-	for (k = 0; k < i; k++)
-		cout << k+1 << " ";
+  cout << "\t";
+  cout << "   ";
+  for (k = 0; k < i; k++)
+    cout << k+1 << " ";
 	
-	maximumCircles = maxCircles();
+  maximumCircles = maxCircles();
 }
